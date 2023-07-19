@@ -1,0 +1,6 @@
+GridBackground {
+    --grid-background-color: #282828;
+    --line-color: #383838;
+    --thick-line-color: #454545;
+    --spacing: 10;
+}
