@@ -7,13 +7,12 @@ using UnityEditor.UIElements;
 public class WaveFunctionStatesRedactor : EditorWindow
 {
     WaveFunctionView waveView;
-    // [MenuItem("Window/WaveFunctionStatesRedactor")]
-    public static void RedactWaveFuction(WaveFunctionCollapse waveFunction)
+    string presetName = "New Preset";
+
+    public static void RedactWaveFuction(WaveFunctionCollapse waveFunction = null)
     {
         WaveFunctionStatesRedactor wnd = GetWindow<WaveFunctionStatesRedactor>();
         wnd.titleContent = new GUIContent("WaveFunctionStatesRedactor");
-        // wnd.target = waveFunction;
-        // Debug.Log(wnd.target);
 
         WaveFunctionView waveView = wnd.waveView;
         waveView.target = waveFunction;
@@ -22,13 +21,54 @@ public class WaveFunctionStatesRedactor : EditorWindow
 
     public void CreateGUI()
     {
-        // Each editor window contains a root VisualElement object
         VisualElement root = rootVisualElement;
 
-        // VisualElements objects can contain other VisualElement following a tree hierarchy.
-        // Debug.Log(target);
+        GenerateGraphView(root);
+        GenerateToolbar(root);
+    }
+
+    void GenerateGraphView(VisualElement root)
+    {
         waveView = new WaveFunctionView();
         waveView.StretchToParentSize();
         root.Add(waveView);
+    }
+
+    void GenerateToolbar(VisualElement root)
+    {
+        Toolbar toolbar = new Toolbar();
+
+        TextField presetNameField = new TextField("Preset Name: ");
+        presetNameField.SetValueWithoutNotify(presetName);
+        presetNameField.MarkDirtyRepaint();
+        presetNameField.RegisterValueChangedCallback((evt) => {
+            presetName = evt.newValue;
+        });
+        toolbar.Add(presetNameField);
+
+        toolbar.Add(new Button(() => RequestDataOperation(true)){text = "Save Preset"});
+        toolbar.Add(new Button(() => RequestDataOperation(false)){text = "Load Preset"});
+
+        root.Add(toolbar);
+    }
+
+    void RequestDataOperation(bool save)
+    {
+        if (string.IsNullOrEmpty(presetName))
+        {
+            EditorUtility.DisplayDialog("Incorrect preset name", "Please, enter valid preset name", "OK");
+            return;
+        }
+
+        GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(waveView);
+
+        if (save)
+        {
+            saveUtility.SaveGraph(presetName);
+        }
+        else
+        {
+            saveUtility.LoadGraph(presetName);
+        }
     }
 }

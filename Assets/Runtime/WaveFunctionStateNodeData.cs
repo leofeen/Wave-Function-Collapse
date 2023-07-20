@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.Experimental.GraphView;
 
-public class WaveFunctionStateNode : Node
+[System.Serializable]
+public class WaveFunctionStateNodeData 
 {
     public string GUID;
+    public Vector2 position;
     public WaveFunctionState referenceState;
 }

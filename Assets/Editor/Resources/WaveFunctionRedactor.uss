@@ -4,3 +4,7 @@ GridBackground {
     --thick-line-color: #454545;
     --spacing: 10;
 }
+
+WaveFunctionStateNode #title {
+    background-color: #0f0fc6;
+}

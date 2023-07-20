@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62bee620717fbcb46b43dffb7822dbb1, type: 3}
+  m_Name: New Preset
+  m_EditorClassIdentifier: 
+  nodeLinkDatas:
+  - baseNodeGUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
+    baseNodePortName: Out, Side - 0
+    targetNodeGUID: 9900d443-e548-4c41-971e-028364fc0494
+    targetNodePortName: In, Side - 0
+  - baseNodeGUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
+    baseNodePortName: Out, Side - 2
+    targetNodeGUID: 9900d443-e548-4c41-971e-028364fc0494
+    targetNodePortName: In, Side - 2
+  - baseNodeGUID: 9900d443-e548-4c41-971e-028364fc0494
+    baseNodePortName: Out, Side - 1
+    targetNodeGUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
+    targetNodePortName: In, Side - 1
+  nodeDatas:
+  - GUID: 9900d443-e548-4c41-971e-028364fc0494
+    position: {x: 876.8, y: 143.2}
+    referenceState: {fileID: 0}
+  - GUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
+    position: {x: 627.2, y: 428}
+    referenceState: {fileID: 0}

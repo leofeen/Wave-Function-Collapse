@@ -23,16 +23,18 @@ public class WaveFunctionView : GraphView
         styleSheets.Add(Resources.Load<StyleSheet>("WaveFunctionRedactor"));
     }
 
-    WaveFunctionStateNode GenerateNode(WaveFunctionState state, int number)
+    public WaveFunctionStateNode GenerateNode(WaveFunctionState state, int index)
     {
         WaveFunctionStateNode node = new WaveFunctionStateNode{
             title = state.stateName,
             GUID = Guid.NewGuid().ToString(),
-            stateName = state.stateName,
             referenceState = state,
         };
 
-        node.SetPosition(new Rect(200*number, 100, 500, 200));
+        node.capabilities &= ~Capabilities.Deletable;
+        node.capabilities &= ~Capabilities.Copiable;
+
+        node.SetPosition(new Rect(200*index, 100, 500, 200));
 
         return node;
     }
@@ -43,6 +45,58 @@ public class WaveFunctionView : GraphView
         return node.InstantiatePort(Orientation.Horizontal, portDirection, capacity, typeof(bool));
     }
 
+    public void GenerateNodePorts(WaveFunctionStateNode node, int numberOfSides)
+    {
+        for (int i = 0; i < numberOfSides; i++)
+        {
+            Port outPort = GeneratePort(node, Direction.Output);
+            outPort.portName = "Out, Side - " + i.ToString();
+            outPort.name = "Out, Side - " + i.ToString();
+            node.outputContainer.Add(outPort);
+
+            Port inPort = GeneratePort(node, Direction.Input);
+            inPort.portName = "In, Side - " + i.ToString();
+            inPort.name = "In, Side - " + i.ToString();
+            node.inputContainer.Add(inPort);
+        }
+
+        node.RefreshExpandedState();
+        node.RefreshPorts();
+    }
+
+    public void GenerateUnconnectButton(WaveFunctionStateNode node)
+    {
+        Button unconnectButton = new Button(() => {
+            List<Edge> toDelete = new List<Edge>();
+
+            foreach (VisualElement e in node.outputContainer.Children())
+            {
+                if (e is Port port)
+                {
+                    foreach (Edge edge in port.connections)
+                    {
+                        if (edge.input.node == edge.output.node)
+                        {
+                            toDelete.Add(edge);
+                        }
+                    }
+                }
+            }
+
+            foreach (Edge edge in toDelete)
+            {
+                edge.input.Disconnect(edge);
+                edge.output.Disconnect(edge);
+            }
+
+            DeleteElements(toDelete);
+        });
+
+        unconnectButton.text = "Unconnect itself";
+
+        node.titleContainer.Add(unconnectButton);
+}
+
     public void GenerateStateNodes()
     {
         int totalCountOfStates = target.avaibleStates.Count;
@@ -52,44 +106,9 @@ public class WaveFunctionView : GraphView
             WaveFunctionState state = target.avaibleStates[i];
             WaveFunctionStateNode node = GenerateNode(state, i);
 
-            Button unconnectButton = new Button(() => {
-                List<Edge> toDelete = new List<Edge>();
+            GenerateUnconnectButton(node);
 
-                foreach (VisualElement e in node.outputContainer.Children())
-                {
-                    if (e is Port port)
-                    {
-                        foreach (Edge edge in port.connections)
-                        {
-                            if (edge.input.node == edge.output.node)
-                            {
-                                toDelete.Add(edge);
-                            }
-                        }
-                    }
-                }
-
-                foreach (Edge edge in toDelete)
-                {
-                    edge.input.Disconnect(edge);
-                    edge.output.Disconnect(edge);
-                }
-
-                DeleteElements(toDelete);
-            });
-            unconnectButton.text = "Unconnect itself";
-            node.titleContainer.Add(unconnectButton);
-
-            Port outPort = GeneratePort(node, Direction.Output);
-            outPort.portName = "Out";
-            node.outputContainer.Add(outPort);
-
-            Port inPort = GeneratePort(node, Direction.Input);
-            inPort.portName = "In";
-            node.inputContainer.Add(inPort);
-
-            node.RefreshExpandedState();
-            node.RefreshPorts();
+            GenerateNodePorts(node, target.numberOfSides);
 
             this.AddElement(node);
         }
