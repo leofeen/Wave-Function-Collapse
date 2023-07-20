@@ -61,14 +61,19 @@ public class WaveFunctionStatesRedactor : EditorWindow
         }
 
         GraphSaveUtility saveUtility = GraphSaveUtility.GetInstance(waveView);
+        WavePreset constructedPreset;
 
         if (save)
         {
-            saveUtility.SaveGraph(presetName);
+            constructedPreset = saveUtility.SaveGraph(presetName);
         }
         else
         {
-            saveUtility.LoadGraph(presetName);
+            constructedPreset = saveUtility.LoadGraph(presetName);
         }
+
+        if (constructedPreset is null) return;
+
+        waveView.target.ApplyPreset(constructedPreset);
     }
 }

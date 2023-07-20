@@ -6,7 +6,7 @@ using UnityEngine;
 public class NodeLinkData
 {
     public string baseNodeGUID;
-    public string baseNodePortName;
+    public int baseNodePortSide;
     public string targetNodeGUID;
-    public string targetNodePortName;
+    public int targetNodePortSide;
 }

@@ -21,9 +21,9 @@ public class GraphSaveUtility
         };
     }
 
-    public void SaveGraph(string presetName)
+    public WavePreset SaveGraph(string presetName)
     {
-        if (!edges.Any()) return;
+        if (!edges.Any()) return null;
 
         WavePreset preset = ScriptableObject.CreateInstance<WavePreset>();
 
@@ -35,9 +35,9 @@ public class GraphSaveUtility
 
             preset.nodeLinkDatas.Add(new NodeLinkData{
                 baseNodeGUID = outputNode.GUID,
-                baseNodePortName = connectedEdges[i].output.portName,
+                baseNodePortSide = int.Parse(connectedEdges[i].output.name),
                 targetNodeGUID = inputNode.GUID,
-                targetNodePortName = connectedEdges[i].input.portName,
+                targetNodePortSide = int.Parse(connectedEdges[i].input.name),
             });
         }
 
@@ -54,21 +54,25 @@ public class GraphSaveUtility
 
         AssetDatabase.CreateAsset(preset, $"Assets/Resources/{presetName}.asset");
         AssetDatabase.SaveAssets();
+
+        return preset;
     }
 
-    public void LoadGraph(string presetName)
+    public WavePreset LoadGraph(string presetName)
     {
         cachePreset = Resources.Load<WavePreset>(presetName);
 
         if (cachePreset is null)
         {
             EditorUtility.DisplayDialog("FIle does not exist", "Please, enter valid preset name", "OK");
-            return;
+            return null;
         }
 
         ClearGraph();
         CreateNodes();
         ConnectNodes();
+
+        return cachePreset;
     }
 
     void ClearGraph()
@@ -105,7 +109,7 @@ public class GraphSaveUtility
                 string targetGuid = connections[j].targetNodeGUID;
                 WaveFunctionStateNode targetNode = nodes.First(x => x.GUID == targetGuid);
 
-                LinkNodes(nodes[i].outputContainer[j].Q<Port>(), targetNode.inputContainer.Q<Port>(connections[j].targetNodePortName));
+                LinkNodes(nodes[i].outputContainer[j].Q<Port>(), targetNode.inputContainer.Q<Port>(connections[j].targetNodePortSide.ToString()));
             }
         }
     }

@@ -6,8 +6,8 @@ using UnityEngine;
 public class WaveFunctionState : MonoBehaviour
 {
     [HideInInspector]
-    public int id;
+    public string GUID;
     
     public string stateName;
-    public Dictionary<int, WaveFunctionState> allowedNeighborStates = new Dictionary<int, WaveFunctionState>(); 
+    public Dictionary<int, List<WaveFunctionState>> allowedNeighborStates = new Dictionary<int, List<WaveFunctionState>>(); 
 }

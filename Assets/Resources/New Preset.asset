@@ -13,22 +13,14 @@ MonoBehaviour:
   m_Name: New Preset
   m_EditorClassIdentifier: 
   nodeLinkDatas:
-  - baseNodeGUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
-    baseNodePortName: Out, Side - 0
-    targetNodeGUID: 9900d443-e548-4c41-971e-028364fc0494
-    targetNodePortName: In, Side - 0
-  - baseNodeGUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
-    baseNodePortName: Out, Side - 2
-    targetNodeGUID: 9900d443-e548-4c41-971e-028364fc0494
-    targetNodePortName: In, Side - 2
-  - baseNodeGUID: 9900d443-e548-4c41-971e-028364fc0494
-    baseNodePortName: Out, Side - 1
-    targetNodeGUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
-    targetNodePortName: In, Side - 1
+  - baseNodeGUID: 1da0cebb-dc74-413a-874a-12822b5b3227
+    baseNodePortSide: 0
+    targetNodeGUID: 1da0cebb-dc74-413a-874a-12822b5b3227
+    targetNodePortSide: 0
   nodeDatas:
-  - GUID: 9900d443-e548-4c41-971e-028364fc0494
-    position: {x: 876.8, y: 143.2}
+  - GUID: 269bbb76-203d-4e01-bb46-bc8d37e397a2
+    position: {x: 0, y: 100}
     referenceState: {fileID: 0}
-  - GUID: 83283b93-8fa2-4407-ba74-fedc37cf78cb
-    position: {x: 627.2, y: 428}
+  - GUID: 1da0cebb-dc74-413a-874a-12822b5b3227
+    position: {x: 364, y: 100}
     referenceState: {fileID: 0}

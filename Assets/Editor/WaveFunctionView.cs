@@ -25,9 +25,16 @@ public class WaveFunctionView : GraphView
 
     public WaveFunctionStateNode GenerateNode(WaveFunctionState state, int index)
     {
+        string usedGUID = state.GUID;
+        if (string.IsNullOrEmpty(usedGUID)) 
+        {
+            usedGUID = Guid.NewGuid().ToString();
+            state.GUID = usedGUID;
+        }
+
         WaveFunctionStateNode node = new WaveFunctionStateNode{
             title = state.stateName,
-            GUID = Guid.NewGuid().ToString(),
+            GUID = usedGUID,
             referenceState = state,
         };
 
@@ -51,12 +58,12 @@ public class WaveFunctionView : GraphView
         {
             Port outPort = GeneratePort(node, Direction.Output);
             outPort.portName = "Out, Side - " + i.ToString();
-            outPort.name = "Out, Side - " + i.ToString();
+            outPort.name = i.ToString();
             node.outputContainer.Add(outPort);
 
             Port inPort = GeneratePort(node, Direction.Input);
             inPort.portName = "In, Side - " + i.ToString();
-            inPort.name = "In, Side - " + i.ToString();
+            inPort.name = i.ToString();
             node.inputContainer.Add(inPort);
         }
 
