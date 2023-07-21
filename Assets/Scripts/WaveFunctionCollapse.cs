@@ -7,8 +7,14 @@ using System.Linq;
 public class WaveFunctionCollapse : MonoBehaviour
 {
     public int spaceSize = 10;
-    public int numberOfSides = 4;
+    public SupportedSpaceConfigurations chosenConfiguration = SupportedSpaceConfigurations.Square2D;
+    public int numberOfSides => GetNumberOfSides(chosenConfiguration);
     public List<WaveFunctionState> avaibleStates = new List<WaveFunctionState>();
+    public WaveFunctionState UndeterminedState;
+
+    // public string perloadPresetName = "New Preset";
+
+    WaveFunctionSpace space;
 
     void ClearNeighbourStates()
     {
@@ -55,5 +61,124 @@ public class WaveFunctionCollapse : MonoBehaviour
         }
 
         DeduplicateNeighbourStates();
+    }
+
+    public WaveFunctionSpace Collapse()
+    {
+        InitializeSpace();
+        
+        CollapseAtPoint(space.zero, avaibleStates);
+
+        List<List<int>> previouslyCollapsed = new List<List<int>>();
+        previouslyCollapsed.Add(space.zero);
+
+        while (true)
+        {
+            List<List<int>> allNeighbours = GetAllNeighbours(previouslyCollapsed);
+            // Debug.Log(allNeighbours.Count);
+            List<List<int>> undeterminedStateNeighbours = allNeighbours.FindAll(x => space[x] == UndeterminedState);
+
+            if (undeterminedStateNeighbours.Count == 0) break;
+
+            CollapseAtPoints(undeterminedStateNeighbours);
+            previouslyCollapsed = new List<List<int>>(undeterminedStateNeighbours);
+        }
+
+        return space;
+    }
+
+    void InitializeSpace()
+    {
+        space = new WaveFunctionSpace(spaceSize, numberOfSides);
+        space.FillWith(UndeterminedState);
+    }
+
+    void CollapseAtPoint(List<int> coordinates, List<WaveFunctionState> avaibleStatesForPoint)
+    {
+        // Debug.Log(avaibleStatesForPoint.Count);
+        int numberOfState = Random.Range(0, avaibleStatesForPoint.Count);
+        // Debug.Log(numberOfState);
+        WaveFunctionState collapsedState = avaibleStatesForPoint[numberOfState];
+
+        space[coordinates] = collapsedState;
+    }
+
+    void CollapseAtPoints(List<List<int>> points)
+    {
+        List<List<WaveFunctionState>> avaibleStatesForPoints = new List<List<WaveFunctionState>>();
+        List<int> entropy = new List<int>();
+
+        points.ForEach(x => avaibleStatesForPoints.Add(GetAvaibleStatesAtPoint(x)));
+        avaibleStatesForPoints.ForEach(x => entropy.Add(x.Count));
+
+        points = points.OrderBy(x => entropy[points.IndexOf(x)]).ToList();
+        avaibleStatesForPoints = avaibleStatesForPoints.OrderBy(x => entropy[avaibleStatesForPoints.IndexOf(x)]).ToList();
+
+        for (int i = 0; i < points.Count; i++)
+        {
+            CollapseAtPoint(points[i], avaibleStatesForPoints[i]);
+        }        
+    }
+
+    List<List<int>> GetAllNeighbours(List<List<int>> points)
+    {
+        List<List<int>> result = new List<List<int>>();
+
+        foreach (List<int> coordinates in points)
+        {
+            List<List<int>> neighbours = space.GetNeighbours(coordinates).Values.ToList();
+            result = result.Union(neighbours).ToList();
+        }
+
+        return DeleteDuplicates(result);
+    }
+
+    List<WaveFunctionState> GetAvaibleStatesAtPoint(List<int> coordinates)
+    {
+        List<WaveFunctionState> result = new List<WaveFunctionState>(avaibleStates);
+
+        Dictionary<int, List<int>> neighbours = space.GetNeighbours(coordinates);
+        foreach (int i in neighbours.Keys)
+        {
+            WaveFunctionState neighbourState = space[neighbours[i]];
+            List<WaveFunctionState> allowedNeighboursForNeighbourState = (neighbourState == UndeterminedState) 
+                ? avaibleStates 
+                : neighbourState.allowedNeighborStates.GetValueOrDefault((i + space.numberOfCoordinates) % numberOfSides, avaibleStates);
+
+            result = result.Intersect(allowedNeighboursForNeighbourState).ToList();
+        }
+
+        return result;
+    }
+
+    List<List<int>> DeleteDuplicates(List<List<int>> points)
+    {
+        List<List<int>> result = new List<List<int>>();
+
+        foreach (List<int> coordinates in points)
+        {
+            bool skip = false;
+            foreach (List<int> x in result) if (Enumerable.SequenceEqual(coordinates, x)) skip = true;
+            if (skip) continue;
+            result.Add(coordinates);
+        }
+
+        return result;
+    }
+
+    public static int GetNumberOfSides(SupportedSpaceConfigurations configuration)
+    {
+        if (configuration == SupportedSpaceConfigurations.Square2D) return 4;
+        if (configuration == SupportedSpaceConfigurations.Square3D
+            || configuration == SupportedSpaceConfigurations.Hex2D) return 6;
+
+        return 0;
+    }
+
+    public enum SupportedSpaceConfigurations
+    {
+        Square2D,
+        Square3D,
+        Hex2D,
     }
 }

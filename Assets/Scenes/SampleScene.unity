@@ -152,10 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f71151ee0917640b4379c01573a4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  GUID: 269bbb76-203d-4e01-bb46-bc8d37e397a2
   stateName: First
-  allowedNeighborStates:
-  - {fileID: 24073338}
 --- !u!4 &24073339
 Transform:
   m_ObjectHideFlags: 0
@@ -200,11 +198,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5f71151ee0917640b4379c01573a4c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  GUID: 1da0cebb-dc74-413a-874a-12822b5b3227
   stateName: Second
-  allowedNeighborStates:
-  - {fileID: 193321713}
-  - {fileID: 24073338}
 --- !u!4 &193321714
 Transform:
   m_ObjectHideFlags: 0
@@ -333,6 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ad4138677e77104d85e2a21b8e9a346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spaceSize: 10
+  chosenConfiguration: 0
   avaibleStates:
   - {fileID: 24073338}
   - {fileID: 193321713}

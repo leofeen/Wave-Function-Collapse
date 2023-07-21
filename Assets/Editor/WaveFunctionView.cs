@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
+using System.Linq;
 
 public class WaveFunctionView : GraphView
 {
@@ -21,6 +22,40 @@ public class WaveFunctionView : GraphView
         background.StretchToParentSize();
 
         styleSheets.Add(Resources.Load<StyleSheet>("WaveFunctionRedactor"));
+    }
+
+    public void ConnectNodes()
+    {
+        List<WaveFunctionStateNode> nodes = this.nodes.ToList().Cast<WaveFunctionStateNode>().ToList();
+
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            Dictionary<int, List<WaveFunctionState>> connections = nodes[i].referenceState.allowedNeighborStates;
+            
+            for (int j = 0; j < target.numberOfSides; j++)
+            {
+                if (!connections.ContainsKey(j)) continue;
+
+                connections[j].ForEach(state => {
+                    string targetGuid = state.GUID;
+                    WaveFunctionStateNode targetNode = nodes.First(x => x.GUID == targetGuid);
+                    LinkNodes(nodes[i].outputContainer[j].Q<Port>(), targetNode.inputContainer[j].Q<Port>());
+                });
+            }
+        }
+    }
+
+    void LinkNodes(Port output, Port input)
+    {
+        Edge edge = new Edge{
+            output = output,
+            input = input,
+        };
+
+        edge.input.Connect(edge);
+        edge.output.Connect(edge);
+
+        this.Add(edge);
     }
 
     public WaveFunctionStateNode GenerateNode(WaveFunctionState state, int index)

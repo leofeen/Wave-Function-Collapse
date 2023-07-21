@@ -17,6 +17,7 @@ public class WaveFunctionStatesRedactor : EditorWindow
         WaveFunctionView waveView = wnd.waveView;
         waveView.target = waveFunction;
         waveView.GenerateStateNodes();
+        waveView.ConnectNodes();
     }
 
     public void CreateGUI()
