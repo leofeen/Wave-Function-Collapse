@@ -15,40 +15,68 @@ MonoBehaviour:
   nodeLinkDatas:
   - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
     baseNodePortSide: 0
-    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
-    targetNodePortSide: 0
+    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    targetNodePortSide: 3
   - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
     baseNodePortSide: 1
-    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
-    targetNodePortSide: 1
+    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    targetNodePortSide: 4
   - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
     baseNodePortSide: 2
-    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
-    targetNodePortSide: 2
+    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    targetNodePortSide: 5
   - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
     baseNodePortSide: 3
     targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    targetNodePortSide: 0
+  - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    baseNodePortSide: 4
+    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    targetNodePortSide: 1
+  - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    baseNodePortSide: 5
+    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    targetNodePortSide: 2
+  - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    baseNodePortSide: 0
+    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
     targetNodePortSide: 3
+  - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    baseNodePortSide: 1
+    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    targetNodePortSide: 4
+  - baseNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    baseNodePortSide: 2
+    targetNodeGUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    targetNodePortSide: 5
+  - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    baseNodePortSide: 3
+    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    targetNodePortSide: 0
+  - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    baseNodePortSide: 4
+    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    targetNodePortSide: 1
+  - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    baseNodePortSide: 5
+    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
+    targetNodePortSide: 2
   - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
     baseNodePortSide: 0
     targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
-    targetNodePortSide: 0
+    targetNodePortSide: 3
   - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
     baseNodePortSide: 1
     targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
-    targetNodePortSide: 1
+    targetNodePortSide: 4
   - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
     baseNodePortSide: 2
     targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
-    targetNodePortSide: 2
-  - baseNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
-    baseNodePortSide: 3
-    targetNodeGUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
-    targetNodePortSide: 3
+    targetNodePortSide: 5
   nodeDatas:
-  - GUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
-    position: {x: 0, y: 100}
-    referenceState: {fileID: 11400000, guid: 99144906ad5d31b469e246fb579fce1a, type: 2}
   - GUID: 405683a7-9fe8-40f0-8a89-43d83dc79acf
-    position: {x: 200, y: 100}
+    position: {x: 528.8, y: 114.399994}
     referenceState: {fileID: 11400000, guid: 26bd1e937af67344db4ebfcb9022f87a, type: 2}
+  - GUID: 247f22a8-663b-442b-b3c7-4c7bb4af1b48
+    position: {x: 132.8, y: 102.399994}
+    referenceState: {fileID: 11400000, guid: 99144906ad5d31b469e246fb579fce1a, type: 2}

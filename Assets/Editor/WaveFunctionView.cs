@@ -39,7 +39,7 @@ public class WaveFunctionView : GraphView
                 connections[j].ForEach(state => {
                     string targetGuid = state.GUID;
                     WaveFunctionStateNode targetNode = nodes.First(x => x.GUID == targetGuid);
-                    LinkNodes(nodes[i].outputContainer[j].Q<Port>(), targetNode.inputContainer[j].Q<Port>());
+                    LinkNodes(nodes[i].outputContainer[j].Q<Port>(), targetNode.inputContainer[(j + target.numberOfSides / 2) % target.numberOfSides].Q<Port>());
                 });
             }
         }

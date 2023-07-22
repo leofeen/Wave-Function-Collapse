@@ -10,5 +10,4 @@ public class WaveFunctionState : ScriptableObject
     public string GUID;
     public string stateName;
     public Dictionary<int, List<WaveFunctionState>> allowedNeighborStates = new Dictionary<int, List<WaveFunctionState>>(); 
-    public GameObject prefab;
 }

@@ -24,7 +24,7 @@ public class WaveFunctionCollapseEditor : Editor
 
         if (GUILayout.Button("Collapse"))
         {
-            waveFunction.Collapse().Deb();
+            waveFunction.Collapse();
         }
     }
 }

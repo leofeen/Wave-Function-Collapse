@@ -73,7 +73,7 @@ public class WaveFunctionStatesRedactor : EditorWindow
             constructedPreset = saveUtility.LoadGraph(presetName);
         }
 
-        if (constructedPreset is null) return;
+        if (constructedPreset == null) return;
 
         waveView.target.ApplyPreset(constructedPreset);
     }

@@ -76,9 +76,4 @@ public class WaveFunctionSpace
             space.Add(filler);
         }
     }
-
-    public void Deb()
-    {
-        space.ForEach(x => Debug.Log(x));
-    }
 }

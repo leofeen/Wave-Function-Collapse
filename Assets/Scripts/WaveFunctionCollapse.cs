@@ -63,7 +63,7 @@ public class WaveFunctionCollapse : MonoBehaviour
         DeduplicateNeighbourStates();
     }
 
-    public WaveFunctionSpace Collapse()
+    public void Collapse()
     {
         InitializeSpace();
         
@@ -83,8 +83,6 @@ public class WaveFunctionCollapse : MonoBehaviour
             CollapseAtPoints(undeterminedStateNeighbours);
             previouslyCollapsed = new List<List<int>>(undeterminedStateNeighbours);
         }
-
-        return space;
     }
 
     void InitializeSpace()
@@ -166,6 +164,72 @@ public class WaveFunctionCollapse : MonoBehaviour
         return result;
     }
 
+    public Dictionary<Vector3Int, string> InterpretWaveSpace()
+    {
+        Dictionary<Vector3Int, string> result = new Dictionary<Vector3Int, string>();
+
+        result[Vector3Int.zero] = space[space.zero].stateName;
+
+        List<List<int>> previouslyChecked = new List<List<int>>();
+        previouslyChecked.Add(space.zero);
+
+        while (true)
+        {
+            List<List<int>> allNeighbours = GetAllNeighbours(previouslyChecked);
+            // Debug.Log(allNeighbours.Count);
+            List<List<int>> uncheckedCoordinates = SubtractListCoordinates(allNeighbours, previouslyChecked);
+
+            if (uncheckedCoordinates.Count == 0) break;
+
+            foreach (List<int> coordinates in uncheckedCoordinates)
+            {
+                Vector3Int indicies;
+                if (coordinates.Count == 2)
+                {
+                    indicies = new Vector3Int(coordinates[0], coordinates[1], 0);
+                }
+                else
+                {
+                    indicies = new Vector3Int(coordinates[0], coordinates[1], coordinates[2]);
+                }
+
+                result[indicies] = space[coordinates].stateName;
+            }
+
+            previouslyChecked.AddRange(uncheckedCoordinates);
+        }
+
+        return CleanseInvalidCoordinates(result);
+    }
+
+    public Dictionary<Vector3Int, string> CleanseInvalidCoordinates(Dictionary<Vector3Int, string> uncleansed)
+    {
+        if (!(chosenConfiguration == SupportedSpaceConfigurations.Hex2D)) return uncleansed;
+
+        Dictionary<Vector3Int, string> cleansed = new Dictionary<Vector3Int, string>();
+        foreach (var (indicies, stateName) in uncleansed)
+        {
+            if (indicies.x + indicies.y + indicies.z == 0) cleansed[indicies] = stateName;
+        }
+
+        return cleansed;
+    }
+
+    public static List<List<int>> SubtractListCoordinates(List<List<int>> first, List<List<int>> second)
+    {
+        List<List<int>> result = new List<List<int>>();
+
+        foreach (List<int> coordinates in first)
+        {
+            bool skip = false;
+            foreach (List<int> x in second) if (Enumerable.SequenceEqual(coordinates, x)) skip = true;
+            if (skip) continue;
+            result.Add(coordinates);
+        }
+
+        return result;
+    }
+
     public static int GetNumberOfSides(SupportedSpaceConfigurations configuration)
     {
         if (configuration == SupportedSpaceConfigurations.Square2D) return 4;
@@ -174,6 +238,7 @@ public class WaveFunctionCollapse : MonoBehaviour
 
         return 0;
     }
+
 
     public enum SupportedSpaceConfigurations
     {
