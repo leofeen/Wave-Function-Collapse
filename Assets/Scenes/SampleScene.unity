@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spaceSize: 1
-  chosenConfiguration: 0
+  chosenConfiguration: 2
   avaibleStates:
   - {fileID: 11400000, guid: 99144906ad5d31b469e246fb579fce1a, type: 2}
   - {fileID: 11400000, guid: 26bd1e937af67344db4ebfcb9022f87a, type: 2}
